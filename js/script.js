@@ -3,13 +3,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
         e.preventDefault()
         // fetch
         const searchTerm = userInput.value
-        fetch("https://www.reddit.com/search.json?q="+searchTerm)
+        fetch(`https://www.reddit.com/search.json?q=${searchTerm}&limit=100`)
         .then((responseData)=>{
             return responseData.json()
         })
         .then((jsonData)=>{
             // do whatever we need to do with the data
-            console.log(jsonData)
+            const resultsArray = jsonData.data.children             
+            const imgURLs = resultsArray.map((resultObj)=>{
+                return resultObj.data.url
+            })
+            console.log(imgURLs)
         })
         .catch((error)=>{
             console.log(`Error retrieving data from reddit:`)
